@@ -1,0 +1,15 @@
+[dev]
+system1
+
+[test]
+system2
+
+[prod]
+system3
+system4
+
+[balancers]
+system5
+
+[webservers:children]
+prod
