@@ -1,0 +1,6 @@
+myusers:
+  - name: ravi
+    uid: 1025
+    first: ravi
+    last: sharma
+    middle: exam
