@@ -1,19 +1,24 @@
-- hosts: all
-  become: true
-  vars_files:
-    - user.yml I
+---
+- name: Ensure users exist
+  hosts: all
+  become: yes
+  vars:
+    users:
+      - name: bob
+        groups:
+          - developer
+
   tasks:
-    - name: group add
-      group:
-        name: "{{item }}"
+    - name: Ensure required groups exist
+      ansible.builtin.group:
+        name: "{{ item }}"
         state: present
-      with_items:
-	      - gdesc
-	      - manager
-	      - developer
-    - name: add user
-      user:
-	      name: "{{item.name }}"
-	      group: "{{ item.group }}"
-     with_items:
-	     - "{{ myusers }}"
+      loop:
+        - developer
+
+    - name: Ensure users are present
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        groups: "{{ item.groups | default(omit) }}"
+        state: present
+      loop: "{{ users }}"
